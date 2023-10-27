@@ -28,3 +28,20 @@
     align-self: center;
     min-width: 10vw;
 }
+
+.card-list{
+    display: flex;
+}
+
+.card-list.opponent{
+    direction: rtl;
+}
+
+.card-list-item.player{
+    margin-left:calc(6vw - 150px);
+}
+
+.card-list-item.opponent{
+    margin-right: calc(6vw - 150px);
+    direction: ltr;
+}

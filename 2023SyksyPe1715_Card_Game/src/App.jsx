@@ -68,9 +68,15 @@ export default function App(){
           <p>{result || 'Press the button'}</p> 
           <button onClick={compareCards} type="button">Play</button>
         </div>
-        <Card card = {cards.opponent[0]}/> 
+        <ul className='card-list opponent'>
+          {cards.opponent.map(oCard =>(
+            <li className='card-list-item opponent' key={oCard.id}>
+              <Card card = {oCard}/>
+            </li>
+          ))}
+        </ul>
       </div>
-      {console.log(dealCards())}
+
     </>
   );
 }

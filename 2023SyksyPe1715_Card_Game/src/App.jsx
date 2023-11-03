@@ -1,4 +1,5 @@
 import Card from './components/Card'
+import PlayButton from './components/PlayButton';
 import './App.css'
 import { useState } from 'react';
 
@@ -26,16 +27,27 @@ const createCard = index =>({
 
 const deck = Array(16).fill(null).map((_,index) => createCard(index));
 const half = Math.ceil(deck.length / 2);
+
 const dealCards = () =>{
+  shuffle(deck);
   return{
     player: deck.slice(0,half),
     opponent: deck.slice(half)
   };
 };
 
+function shuffle(array){
+  for(let i = array.length -1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i +1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 export default function App(){
   const[result, setResult] = useState('');
   const[cards, setCards] = useState(dealCards());
+  const[gameState, setGameState] = useState('play');
 
   function compareCards(){
     const playerStat = cards.player[0].stats[0];
@@ -50,7 +62,7 @@ export default function App(){
     else{
       setResult('Loss'); 
     }
-
+    setGameState('result');
   }
   
   return(
@@ -58,15 +70,15 @@ export default function App(){
       <h1>Hello world!</h1>
       <div className='game'>
         <ul className='card-list'>
-          {cards.player.map(pCard =>(
+          {cards.player.map((pCard, index) =>(
             <li className='card-list-item player' key={pCard.id}>
-              <Card card = {pCard}/>
+              <Card card = {index === 0 ? pCard : null}/>
             </li>
           ))}
         </ul>
         <div className='center-area'>
-          <p>{result || 'Press the button'}</p> 
-          <button onClick={compareCards} type="button">Play</button>
+          <p>{result || 'Press the button'}</p>
+          <PlayButton text={'Play'} handleClick={compareCards}/> 
         </div>
         <ul className='card-list opponent'>
           {cards.opponent.map(oCard =>(

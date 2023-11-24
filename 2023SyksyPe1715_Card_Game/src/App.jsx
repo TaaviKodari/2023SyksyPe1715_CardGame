@@ -50,6 +50,15 @@ export default function App(){
   const[gameState, setGameState] = useState('play');
   const[selectedStat, setSelectedStat] = useState(0);
   
+  if(gameState !== 'game_over' && (!cards.opponent.length || !cards.player.length)){
+    setResult(()=>{
+      if(!cards.opponent.length) return 'Player win!';
+      else if (!cards.player.length) return 'Player loss!';
+      return 'Draw';
+    });
+    setGameState('game_over');
+  }
+
   function compareCards(){
     const playerStat = cards.player[0].stats[selectedStat];
     const opponentStat = cards.opponent[0].stats[selectedStat];
@@ -106,33 +115,47 @@ export default function App(){
     <>
       <h1>Hello world!</h1>
       <div className='game'>
-        <ul className='card-list'>
-          {cards.player.map((pCard, index) =>(
-            <li className='card-list-item player' key={pCard.id}>
-              <Card card = {index === 0 ? pCard : null}
-              handleSelect={statIndex => gameState === 'play' && setSelectedStat(statIndex)}
-              selectStat={selectedStat}
-              />
-            </li>
-          ))}
-        </ul>
+
+        <div className='hand player'>
+          <h2>Player</h2>
+          <ul className='card-list'>
+            {cards.player.map((pCard, index) =>(
+              <li className='card-list-item player' key={pCard.id}>
+                <Card card = {index === 0 ? pCard : null}
+                handleSelect={statIndex => gameState === 'play' && setSelectedStat(statIndex)}
+                selectStat={selectedStat}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <div className='center-area'>
           <p>{result || 'Press the button'}</p>
           {
             gameState === 'play'?(
               <PlayButton text={'Play'} handleClick={compareCards}/> 
-            ) : (
+            )
+            : gameState === 'game_over' ?
+            (<PlayButton text={'Restart'} handleClick={restartGame}/>)
+            :
+            (
               <PlayButton text={'Next'} handleClick={nextRound}/> 
             )
           }
         </div>
-        <ul className='card-list opponent'>
-          {cards.opponent.map(oCard =>(
-            <li className='card-list-item opponent' key={oCard.id}>
-              <Card card = {oCard}/>
-            </li>
-          ))}
-        </ul>
+        
+        <div className='hand'>
+        <h2>Opponent</h2>
+          <ul className='card-list opponent'>
+            {cards.opponent.map((oCard,index) =>(
+              <li className='card-list-item opponent' key={oCard.id}>
+                <Card card = {result && index === 0 ? oCard : null}/>
+              </li>
+            ))}
+          </ul>
+        </div>
+
       </div>
 
     </>

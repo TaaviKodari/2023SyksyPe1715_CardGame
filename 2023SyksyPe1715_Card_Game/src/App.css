@@ -68,3 +68,13 @@
     outline: 1px dashed black;
     background-color: #fafafa;
 }
+
+.hand{
+    display: flex;
+    flex-direction: column;
+    width: 40vw;
+}
+
+.hand.player > h2{
+    align-self: end;
+}

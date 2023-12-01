@@ -78,3 +78,16 @@
 .hand.player > h2{
     align-self: end;
 }
+
+a:link, a:visited{
+    background-color: #cf75a4;
+    color: white;
+    padding: 14px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    width: 10vw;
+}
+a:hover, a:active{
+    background-color: rgb(210,53,128);
+}

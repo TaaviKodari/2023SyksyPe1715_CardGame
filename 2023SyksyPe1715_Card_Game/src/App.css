@@ -91,3 +91,7 @@ a:link, a:visited{
 a:hover, a:active{
     background-color: rgb(210,53,128);
 }
+
+#canvas{
+    background-color: #134959;
+}

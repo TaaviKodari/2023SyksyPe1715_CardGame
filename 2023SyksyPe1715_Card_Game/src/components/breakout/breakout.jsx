@@ -1,20 +1,22 @@
 import { useRef, useEffect } from "react";
+import { BallMovement } from "./BallMovement";
+import data from "./data";
 
+let {ballObj} = data;
 export default function Breakout(){
     const canvasRef = useRef(null);
 
     useEffect (()=>{
-        const canvas = canvasRef.current;
-        const ctx = canvas.getContext('2d');
-        // ctx.fillStyle = "green";
-        // ctx.fillRect(10,10,150,100);
-        ctx.beginPath();
-        ctx.fillStyle = "red";
-        ctx.arc(75,75,50,0, 2 * Math.PI);
-        ctx.strokeStyle = "black";
-        ctx.lineWidth = 1;
-        ctx.fill();
-        ctx.stroke();
+        const render = ()=>{
+            const canvas = canvasRef.current;
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            // ctx.fillStyle = "green";
+            // ctx.fillRect(10,10,150,100);
+            BallMovement(ctx,ballObj);
+            requestAnimationFrame(render);
+        }
+      render();
     }, [])
 
     return(
